@@ -1,17 +1,24 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchContacts, getError, getIsLoading } from "../redux/contactsOps";
+// import { getTasks } from "../redux/contactsSlice";
 import ContactForm from "./ContactForm/ContactForm";
 import SearchBox from "./SearchBox/SearchBox";
 import ContactList from "./ContactList/ContactList";
 import styles from "./App.module.css";
 
-// const savedContacts = JSON.parse(localStorage.getItem("saved-contacts"));
-
-// const contacts =
-//   savedContacts !== null
-//     ? savedContacts
-//     : [ ];
 
 function App() {
   const { container, phonebookTitle } = styles;
+
+  const dispatch = useDispatch();
+  // Отримуємо частини стану
+  // const { items, isLoading, error } = useSelector(getTasks);
+
+  // Викликаємо операцію
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div className={container}>
