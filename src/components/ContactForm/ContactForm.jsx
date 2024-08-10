@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import MaskedInput from "react-text-mask";
 import * as Yup from "yup";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsOps";
 import styles from "./ContactForm.module.css";
 
 const contactFormSchema = Yup.object().shape({
@@ -13,7 +13,7 @@ const contactFormSchema = Yup.object().shape({
     .required("Required"),
   number: Yup.string()
     .matches(
-      /^[0-9]{3}-[0-9]{2}-[0-9]{2}$/,
+      /^[0-9]{3}-[0-9]{2}-[0-9]{4}$/,
       "Invalid phone number format! Should be like: 000-00-00"
     )
     .required("Required"),
@@ -30,10 +30,9 @@ const ContactForm = () => {
   const id = useId();
 
   const handleSubmit = (values, { resetForm }) => {
-    dispatch(addContact(values.name, values.number));
+    dispatch(addContact({ name: values.name, number: values.number }));
     resetForm();
   };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -52,8 +51,8 @@ const ContactForm = () => {
             {({ field }) => (
               <MaskedInput
                 {...field}
-                mask={[/\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]}
-                placeholder="000-00-00"
+                mask={[/\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+                placeholder="000-00-0000"
                 id={`contactFormNumber${id}`}
                 type="tel"
               />
@@ -68,3 +67,7 @@ const ContactForm = () => {
   );
 };
 export default ContactForm;
+
+
+
+
