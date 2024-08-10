@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchContacts, getError, getIsLoading } from "../redux/contactsOps";
+import { useDispatch, useSelector} from "react-redux";
+import { fetchContacts } from "../redux/contactsOps";
+import { getError, getIsLoading } from "../redux/contactsSlice";
+
 // import { getTasks } from "../redux/contactsSlice";
 import ContactForm from "./ContactForm/ContactForm";
 import SearchBox from "./SearchBox/SearchBox";
@@ -9,11 +11,11 @@ import styles from "./App.module.css";
 
 
 function App() {
-  const { container, phonebookTitle } = styles;
+  const { container, phonebookTitle, isLoadingText } = styles;
 
   const dispatch = useDispatch();
-  // Отримуємо частини стану
-  // const { items, isLoading, error } = useSelector(getTasks);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
 
   // Викликаємо операцію
   useEffect(() => {
@@ -25,6 +27,7 @@ function App() {
       <h1 className={phonebookTitle}>Phonebook</h1>
       <ContactForm />
       <SearchBox />
+      {isLoading && !error && <b className={isLoadingText}>Request in progress...</b>}
       <ContactList/>
     </div>
   );
