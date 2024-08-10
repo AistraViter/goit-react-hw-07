@@ -65,7 +65,7 @@ export const selectFilteredContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, filter) => {
     return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+      contact.name?.toLowerCase().includes(filter?.toLowerCase() || "")
     );
   }
 );
@@ -76,4 +76,3 @@ export const selectFilteredContacts = createSelector(
 export const getTasks = state => state.contacts.items;
 export const getIsLoading = state => state.contacts.isLoading;
 export const getError = state => state.contacts.error;
-
