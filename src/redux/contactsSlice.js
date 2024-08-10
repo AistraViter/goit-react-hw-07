@@ -1,5 +1,7 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, createSelector, nanoid } from "@reduxjs/toolkit";
 import { fetchContacts } from "./contactsOps";
+import { selectFilter } from "./filtersSlice";
+
 
 const contactsSlice = createSlice({
   name: "contacts",
@@ -51,16 +53,25 @@ const contactsSlice = createSlice({
 });
 
 export const {
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
   addContact,
   deleteContact,
 } = contactsSlice.actions;
 export default contactsSlice.reducer;
 
 // Оголошуємо селектори
+
 export const selectContacts = (state) => state.contacts.items;
+export const selectFilteredContacts = createSelector(
+  [selectContacts, selectFilter],
+  (contacts, filter) => {
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+);
+
+
+
 
 export const getTasks = state => state.contacts.items;
 export const getIsLoading = state => state.contacts.isLoading;
