@@ -33,7 +33,7 @@ const ContactForm = () => {
     dispatch(addContact({ name: values.name, number: values.number }));
     resetForm();
   };
-  return (
+    return (
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
